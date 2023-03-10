@@ -1,0 +1,80 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int binarySearch(int arr[],int n, int target, int start, int end) {
+
+    int mid = start + (end - start ) / 2;
+
+    while(start <= end) {
+        if(target == arr[mid]) {//element found, then return index
+        return mid;
+        }
+        
+        if(target < arr[mid]) {
+        //search in left
+        end = mid - 1;
+        }
+        else {
+        //search in right
+        start = mid + 1;
+        }
+
+        mid = start + (end - start ) / 2;
+
+    }
+
+  //element not found
+  return -1;
+
+}
+
+    int findPivot(int arr[],int n) {
+    int s = 0;
+    int e = n- 1;
+    int mid = s + (e-s)/2;
+
+    while(s < e) {
+        if(mid+1 <n && arr[mid] > arr[mid+1])
+        return mid;
+        if(mid-1 >= 0 && arr[mid-1] > arr[mid])
+        return mid-1;
+
+        if(arr[s] > arr[mid])
+        e = mid - 1;
+        else
+        s = mid ;
+        mid = s + (e-s)/2;
+    }
+    return s; 
+    }
+
+    int search(int arr[],int n,int key){
+        int pivotIndex = findPivot(arr,n);
+        if(key>=arr[0] && key<=arr[pivotIndex]){
+            //search in array A
+            int ans = binarySearch(arr,n,key,0,pivotIndex);
+            return ans;
+        }
+
+        if(pivotIndex+1 <n  && key >= arr[pivotIndex+1] && key <= arr[n-1]){
+            //search in array B
+            int ans = binarySearch(arr, n,key, pivotIndex+1,n-1);
+            return ans;
+        }
+    
+    return -1;
+}
+int main(){
+    int arr[]={5,6,7,8,9,10,1,2,3};
+    int n=9;
+    int target=6;
+    int targetindex=search(arr,n,target);
+    if(targetindex==-1)
+    cout<<"not exist";
+    else
+    cout<<"target is at "<<targetindex<<"  index";
+}
+
+
+
+    
